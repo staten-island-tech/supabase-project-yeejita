@@ -1,7 +1,7 @@
 <template>
- <h1 class="text-orange-800">
-    Hello world!
-  </h1>
+  <div class="text-yellow-100">
+    <h1>This is an about page</h1>
+  </div>
 </template>
 
 <style>
