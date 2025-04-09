@@ -20,4 +20,17 @@ const router = createRouter({
   ],
 })
 
+
+
+router.beforeEach((to, from, next)=>{
+const auth = useAuthStore()
+if (to.meta.requiresAuth && !auth.isLoggedIn){
+  alert(`You must be signed in`)
+  next('/')
+} else{
+  next()
+}
+}
+)
+
 export default router
