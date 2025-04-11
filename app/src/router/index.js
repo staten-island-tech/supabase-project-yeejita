@@ -17,20 +17,18 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
+    {
+      path: '/posts',
+      name: 'posts',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ProfileView.vue'),
+    },
   ],
 })
 
 
 
-router.beforeEach((to, from, next)=>{
-const auth = useAuthStore()
-if (to.meta.requiresAuth && !auth.isLoggedIn){
-  alert(`You must be signed in`)
-  next('/')
-} else{
-  next()
-}
-}
-)
 
 export default router
