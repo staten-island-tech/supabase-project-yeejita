@@ -4,7 +4,7 @@
     <form @submit.prevent="registerUser">
       <div>
         <label for="username">Username</label>
-        <input type="text" id="username" v-model="username" required />
+        <input type="text" id="username"  />
       </div>
       <div>
         <label for="email">Email</label>
