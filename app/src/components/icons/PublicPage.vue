@@ -15,9 +15,7 @@
   
 </div>
 
-<div>
-    <input type="text" name="sugoi" id="">
-</div>
+
 </template>
 
 <script setup>
