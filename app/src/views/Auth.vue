@@ -28,9 +28,9 @@ const username = ref("")
 const password = ref("")
 const email = ref("")
 
-const signUp = async () => {
+const signup = async () => {
   // Step 1: Sign up with Supabase Auth
-  const { data: authData, error: authError } = await supabase.auth.signUp({
+  const { data: authData, error: authError } = await supabase.auth.signup({
     email: email.value,
     password: password.value
   })
