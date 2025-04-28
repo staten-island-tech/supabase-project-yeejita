@@ -14,7 +14,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" v-model="password" required />
       </div>
-      <button type="submit">sign up?</button>
+      <button type="submit" @click="signUp">sign up?</button>
     </form>
   </div>
 </template>
@@ -29,7 +29,7 @@ const password = ref("")
 const email = ref("")
 
 const signUp = async () => {
-  // Step 1: Sign up with Supabase Auth
+
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
@@ -44,7 +44,7 @@ const signUp = async () => {
   const userId = authData.user.id
   const timeCreated = new Date().toISOString()
 
-  // Step 2: Insert additional user info into your "profiles" table
+
   const { error: profileError } = await supabase
     .from('profiles')
     .insert([
