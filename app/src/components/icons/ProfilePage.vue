@@ -3,6 +3,7 @@
 <h1 class = "text-3xl text-center ">
     Hello, {{ user.name }}!
 </h1>
+
 <h2 class = "text-2xl">Rating: {{ user.rating }}</h2>
 <h2 class = "text-2xl">Posts: {{ user.posttotal }}</h2>
     </div>
