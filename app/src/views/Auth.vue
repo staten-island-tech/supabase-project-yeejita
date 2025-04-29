@@ -64,4 +64,3 @@ const registerUser = async () => {
   password.value = ''
 }
 </script>
-
