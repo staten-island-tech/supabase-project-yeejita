@@ -1,8 +1,8 @@
 <template>
   <div>
-<h1 class = "text-center text-4xl ">Welcome to SupaFoodBase</h1>
-<h2>Sign in and create and share recipes</h2>
-<h2>View and rate other users' posts</h2>
+<h1 class = "text-center text-4xl mb-8">Welcome to SupaFoodBase</h1>
+<h2 class = "text-center">Sign in and create and share recipes</h2>
+<h2 class = "text-center">View and rate other users' posts</h2>
   </div>
 </template>
 

@@ -1,19 +1,21 @@
 <template>
     <div>
         <h1>View other user posts:</h1>
-        <button  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 border border-greem-700 rounded">Recent</button>
-        <button  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 border border-green-700 rounded">Top</button>
-        <button  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 border border-green-700 rounded">Oldest</button>
+        
     </div>
 
-    <div class="relative text-center">
+    <div class="relative">
   <select class="...">
-    <option>Recent</option>
-    <option>Top</option>
-    <option>Oldest</option>
+    <option class ="text-green-600">Recent</option>
+    <option class ="text-green-600">Top</option>
+    <option class ="text-green-600">Oldest</option>
   </select>
+  </div>
+
+  <div>
+    <div><input class = "pt-2 pb-20" type="text" id="input-text" placeholder=" What'd you make?"> </div>
   
-</div>
+  </div>
 
 
 </template>

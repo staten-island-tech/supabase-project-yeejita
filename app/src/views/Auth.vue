@@ -1,74 +1,67 @@
 <template>
-    <div class="register">
-    <h2>signup</h2>
-    <form @submit.prevent="registerUser">
+  <div class="register">
+    <h2 class="text-2xl text-center mb-4">Sign Up</h2>
+    <form @submit.prevent="registerUser" class="space-y-4">
       <div>
-        <label for="username">Username</label>
-        <input type="text" id="username"  />
+        <label>Username</label>
+        <input v-model="username" type="text" required />
       </div>
       <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="email" required />
+        <label>Email</label>
+        <input v-model="email" type="email" required />
       </div>
       <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" required />
+        <label>Password</label>
+        <input v-model="password" type="password" required />
       </div>
-      <button type="submit" @click="signUp">sign up?</button>
-
+      <button type="submit">Sign Up</button>
     </form>
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
-import { supabase } from "@/supabaseClient";
+<script setup>
+import { ref } from 'vue'
+import { supabase } from '@/supabaseClient'
 
+const username = ref('')
+const email = ref('')
+const password = ref('')
 
-const username = ref("")
-const password = ref("")
-const email = ref("")
-
-const signUp = async () => {
-  // Step 1: Sign up with Supabase Auth
-  const { data: authData, error: authError } = await supabase.auth.signUp({
+const registerUser = async () => {
+  // Sign up with Supabase Auth
+  const { data, error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
   });
 
-  if (authError) {
-    console.error('Auth Error:', authError.message);
-    alert('Sign up failed');
-    return;
+  if (error) {
+    console.error('Signup error:', error.message)
+    alert('Signup failed.')
+    return
   }
 
-  const userId = authData.user.id;
-  const timeCreated = new Date().toISOString();
+  const userId = data.user.id
 
-  // Step 2: Insert additional user info into your "profiles" table
-  const { error: profileError } = await supabase
+  // Insert additional user data into your 'users' table
+  const { error: insertError } = await supabase
     .from('users')
     .insert([
       {
-        id: userId,
-        username: username.value,
-        time_created: timeCreated
+        uid: userId,
+        username: username.value
       }
     ]);
 
-  if (profileError) {
-    console.error('Profile insert error:', profileError.message);
-    alert('Could not save user profile');
-    return;
+  if (insertError) {
+    console.error('Insert error:', insertError.message)
+    alert('Failed to save user data.')
+    return
   }
 
-  alert('Signed up successfully! Please check your email to confirm.');
-  email.value = '';
-  password.value = '';
-  username.value = '';
-};
-
-
-
-
+  alert('Signup successful! Check your email to confirm.')
+  username.value = ''
+  email.value = ''
+  password.value = ''
+}
 </script>
+
