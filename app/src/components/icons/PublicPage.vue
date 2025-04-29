@@ -13,10 +13,15 @@
   </div>
 
   <div>
-    <div><input class = "pt-2 pb-20" type="text" id="input-text" placeholder=" What'd you make?"> </div>
+    <div><input class = "pt-2 pb-20" type="text" id="input-text" placeholder=" Write your post here"> </div>
   
   </div>
 
+  <div class = "posts">
+    
+
+
+  </div>
 
 </template>
 
