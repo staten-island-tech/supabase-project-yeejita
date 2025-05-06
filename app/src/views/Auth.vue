@@ -14,7 +14,9 @@
         <label>Password</label>
         <input v-model="password" type="password" required />
       </div>
-      <button type="submit">Sign Up</button>
+      <button type="submit" :disabled="loading">
+        {{ loading ? 'Signing up...' : 'Sign Up' }}
+      </button>
     </form>
   </div>
 </template>
@@ -26,35 +28,43 @@ import { supabase } from '@/supabaseClient'
 const username = ref('')
 const email = ref('')
 const password = ref('')
+const loading = ref(false)
 
 const registerUser = async () => {
-  // Sign up with Supabase Auth
+  loading.value = true
+
   const { data, error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
-  });
+  })
 
   if (error) {
-    console.error('Signup error:', error.message)
-    alert('Signup failed.')
+    alert('Signup failed: ' + error.message)
+    loading.value = false
     return
   }
 
-  const userId = data.user.id
+  const userId = data?.user?.id
+  if (!userId) {
+    alert('Signup failed: No user ID returned.')
+    loading.value = false
+    return
+  }
 
-  // Insert additional user data into your 'users' table
   const { error: insertError } = await supabase
     .from('users')
     .insert([
       {
         uid: userId,
-        username: username.value
+        user: username.value,
+        email: email.value,
+        created: new Date().toISOString()
       }
-    ]);
+    ])
 
   if (insertError) {
-    console.error('Insert error:', insertError.message)
-    alert('Failed to save user data.')
+    alert('Failed to save user data: ' + insertError.message)
+    loading.value = false
     return
   }
 
@@ -62,5 +72,7 @@ const registerUser = async () => {
   username.value = ''
   email.value = ''
   password.value = ''
+  loading.value = false
 }
 </script>
+
