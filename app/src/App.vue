@@ -4,6 +4,9 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
+  <body class = "bg-gray-400">
+    
+  
   <header>
     
 
@@ -21,6 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
   </header>
 
   <RouterView />
+</body>
 </template>
 
 <style scoped>
