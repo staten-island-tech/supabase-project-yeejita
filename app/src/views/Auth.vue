@@ -68,7 +68,7 @@ const registerUser = async () => {
     return
   }
 
-  alert('Signup successful! Check your email to confirm.')
+  alert('Signup successful! Please check your email to confirm your account.')
   username.value = ''
   email.value = ''
   password.value = ''
