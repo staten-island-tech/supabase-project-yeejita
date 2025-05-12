@@ -39,11 +39,15 @@ const registerUser = async () => {
   })
 
   if (error) {
-    alert('Signup failed: ' + error.message)
+    if (error.message.includes('already registered')) {
+      alert('Signup failed: This email is already registered.')
+    } else {
+      alert('Signup failed: ' + error.message)
+    }
     loading.value = false
     return
   }
-
+  
   const userId = data?.user?.id
   if (!userId) {
     alert('Signup failed: No user ID returned.')
