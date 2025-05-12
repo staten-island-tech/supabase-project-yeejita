@@ -17,10 +17,12 @@
     <button  class ="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"> Submit </button>
   </div>
 
+
   <div class = "posts">
-    <div class = "post">
-      <button>Like Post</button>
-      <button>Dislike Post</button>
+
+    <div class = "post, flex-wrap	">
+      <button class = "bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-lg">👍 </button>
+      <button class = "bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-lg">👎 </button>
     </div>
 
 
@@ -29,7 +31,7 @@
 </template>
 
 <script setup>
-
+//insert text into textbox ad submit to show on screen
 </script>
 
 <style scoped>
