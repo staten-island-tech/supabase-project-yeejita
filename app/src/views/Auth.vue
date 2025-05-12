@@ -14,9 +14,7 @@
         <label>Password</label>
         <input v-model="password" type="password" required />
       </div>
-      <button type="submit" :disabled="loading">
-        {{ loading ? 'Signing up...' : 'Sign Up' }}
-      </button>
+      <button type="submit">Sign Up</button>
     </form>
   </div>
 </template>
@@ -33,35 +31,33 @@ const loading = ref(false)
 const registerUser = async () => {
   loading.value = true
 
-  const { data, error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value
-  })
+  // Check if the email already exists
+  const { data: existingUsers, error: checkError } = await supabase
+    .from('users')
+    .select('uid')
+    .eq('email', email.value)
+    .limit(1)
 
-  if (error) {
-    if (error.message.includes('already registered')) {
-      alert('Signup failed: This email is already registered.')
-    } else {
-      alert('Signup failed: ' + error.message)
-    }
-    loading.value = false
-    return
-  }
-  
-  const userId = data?.user?.id
-  if (!userId) {
-    alert('Signup failed: No user ID returned.')
+  if (checkError) {
+    alert('Error checking existing users: ' + checkError.message)
     loading.value = false
     return
   }
 
+  if (existingUsers && existingUsers.length > 0) {
+    alert('Signup failed: Email is already registered.')
+    loading.value = false
+    return
+  }
+
+  // Insert new user
   const { error: insertError } = await supabase
     .from('users')
     .insert([
       {
-        uid: userId,
         user: username.value,
         email: email.value,
+        password: password.value, // Note: plaintext password — not secure
         created: new Date().toISOString()
       }
     ])
@@ -72,7 +68,7 @@ const registerUser = async () => {
     return
   }
 
-  alert('Signup successful! Please check your email to confirm your account.')
+  alert('Signup successful!')
   username.value = ''
   email.value = ''
   password.value = ''
