@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>View other user posts:</h1>
+        <h1 class = "font-sans text-lg text-gray-800 text-center">View other user posts:</h1>
         
     </div>
 
