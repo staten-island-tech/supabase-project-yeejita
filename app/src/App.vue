@@ -4,6 +4,9 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
+  <body class = "bg-gray-400">
+    
+  
   <header>
     
 
@@ -13,7 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
-        <RouterLink to="/posts">Public Posts</RouterLink>
+        <RouterLink to="/posts">Posts</RouterLink>
         <RouterLink to="/signup">Sign Up</RouterLink>
     
       </nav>
@@ -21,6 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
   </header>
 
   <RouterView />
+</body>
 </template>
 
 <style scoped>

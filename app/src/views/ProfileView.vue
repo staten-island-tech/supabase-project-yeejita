@@ -1,7 +1,9 @@
 <template>
-    <div>
+    <body>
+ <div>
 <ProfilePage />
     </div>
+</body>
 </template>
 
 <script setup>

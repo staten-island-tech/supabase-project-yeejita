@@ -1,18 +1,18 @@
 <template>
   <div class="register">
-    <h2 class="text-2xl text-center mb-4">Sign Up</h2>
+    <h2 class="text-4xl text-center mb-4">Sign Up</h2>
     <form @submit.prevent="registerUser" class="space-y-4">
       <div>
-        <label>Username</label>
+        <label class = "text-3xl">Username</label>
         <input v-model="username" type="text" required />
       </div>
       <div>
-        <label>Email</label>
+        <label class = "text-3xl">Email</label>
         <input v-model="email" type="email" required />
       </div>
       <div>
-        <label>Password</label>
-        <input v-model="password" type="password" required />
+        <label class = "text-3xl">Password</label>
+        <input v-model="Password" type="password" required />
       </div>
       <button type="submit">Sign Up</button>
     </form>
