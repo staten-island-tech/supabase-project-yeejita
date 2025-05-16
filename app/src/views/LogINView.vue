@@ -1,6 +1,6 @@
 <template>
  <div class="login-page">
-    <h2>Login</h2>
+    <h2 class = "text-center text-4xl ">Login</h2>
 
     <form @submit.prevent="handleLogin">
       <div>
@@ -31,7 +31,7 @@
 
       <button type="submit" :disabled="auth.loading">
         <span v-if="auth.loading">Logging in...</span>
-        <span v-else>Login</span>
+        <span class = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" v-else>Login</span>
       </button>
     </form>
   </div>

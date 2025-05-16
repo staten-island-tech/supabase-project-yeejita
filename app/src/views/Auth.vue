@@ -14,7 +14,7 @@
         <label class = "text-3xl">Password</label>
         <input v-model="Password" type="password" required />
       </div>
-      <button type="submit">Sign Up</button>
+      <button class = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">Sign Up</button>
     </form>
   </div>
 </template>
