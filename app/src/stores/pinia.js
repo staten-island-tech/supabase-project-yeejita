@@ -31,14 +31,12 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (signupError) throw signupError
 
-      const { error: insertError } = await supabase.from('users').insert([
-        {
-          user: username.value,
-          email: email.value,
-          uid: authData.user.id,
-          created: new Date().toISOString()
-        }
-      ])
+      const { error: insertError } = await supabase.from('users').insert([{
+        user: username.value,
+        email: email.value,
+        uid: authData.user.id,
+        created: new Date().toISOString()
+      }])
 
       if (insertError) throw insertError
 
@@ -71,14 +69,27 @@ export const useAuthStore = defineStore('auth', () => {
         .from('users')
         .select('*')
         .eq('uid', loginData.user.id)
-        .single()
 
       if (fetchError) throw fetchError
 
-      username.value = userRow.user
+      // Check for multiple or no rows
+      if (userRow.length === 0) {
+        error.value = 'No user found in the database.'
+        return false
+      }
+
+      if (userRow.length > 1) {
+        error.value = 'Multiple users found with the same UID.'
+        return false
+      }
+
+      // Set username from the first userRow
+      username.value = userRow[0].user
       clearForm()
+
       return true
     } catch (err) {
+      console.error(err)
       error.value = err.message
       return false
     } finally {
