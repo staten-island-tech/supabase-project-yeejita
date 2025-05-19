@@ -33,17 +33,32 @@
         <span v-if="auth.loading">Logging in...</span>
         <span class = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" v-else>Login</span>
       </button>
+
+      <div v-if="loginFailed" class="error">
+        Login failed: {{ auth.error }}
+      </div>
     </form>
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from '@/stores/pinia'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const auth = useAuthStore()
+const router = useRouter()
+const loginFailed = ref(false)
 
 const handleLogin = async () => {
-  await auth.loginUser()
+  const success = await auth.loginUser()
+
+  if (success) {
+    loginFailed.value = false
+    router.push('/') 
+  } else {
+    loginFailed.value = true
+  }
 }
 </script>
 
