@@ -12,9 +12,11 @@
       </div>
       <div>
         <label class = "text-3xl">Password</label>
-        <input v-model="Password" type="password" required />
+        <input v-model="password" type="password" required />
       </div>
-      <button class = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">Sign Up</button>
+      <button class = "text-1.5xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" :disabled="loading">
+        {{ loading ? 'Signing up...' : 'Sign Up' }}
+      </button>
     </form>
   </div>
 </template>
@@ -45,16 +47,28 @@ const registerUser = async () => {
     return
   }
 
-  // Insert new user
+  // Register the user with Supabase Auth (password will be hashed automatically)
+  const { user: authUser, error: signupError } = await supabase.auth.signUp({
+    email: email.value,
+    password: password.value,
+  })
+
+  if (signupError) {
+    alert('Error during signup: ' + signupError.message)
+    loading.value = false
+    return
+  }
+
+  // Insert additional user data into the 'users' table (username, email, etc.)
   const { error: insertError } = await supabase
     .from('users')
     .insert([
       {
         user: username.value,
         email: email.value,
-        password: password.value, // Note: plaintext password — not secure
-        created: new Date().toISOString()
-      }
+        uid: authUser.id,  // Use the UID from the Supabase Auth user
+        created: new Date().toISOString(),
+      },
     ])
 
   if (insertError) {
@@ -69,6 +83,7 @@ const registerUser = async () => {
   password.value = ''
   loading.value = false
 }
+
 </script>
 
 <style scoped>
