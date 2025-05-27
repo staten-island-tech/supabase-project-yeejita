@@ -21,7 +21,7 @@
         :key="index"
         class="p-4 bg-gray-100 rounded shadow relative"
       >
-        <h2 class="font-bold text-lg mb-2">{user.name}</h2>
+        <h2 class="font-bold text-lg mb-2">{{ username.value }}</h2>
         <p class="whitespace-pre-line m-8">{{ post }}</p>  
         <div class = "mt-6"><button class = "bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-lg">👍 </button>
       <button class = "bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-lg">👎 </button>
