@@ -33,7 +33,7 @@ const loading = ref(false)
 const registerUser = async () => {
   loading.value = true
 
-  // Check if the email already exists
+  // Check if the email already exists in 'users' table
   const { data: existingUsers, error: checkError } = await supabase
     .from('users')
     .select('uid')
@@ -52,8 +52,8 @@ const registerUser = async () => {
     return
   }
 
-  // Register the user with Supabase Auth (password will be hashed automatically)
-  const { user: authUser, error: signupError } = await supabase.auth.signUp({
+  // Sign up user with Supabase Auth (password is hashed automatically)
+  const { data, error: signupError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
   })
@@ -64,14 +64,22 @@ const registerUser = async () => {
     return
   }
 
-  // Insert additional user data into the 'users' table (username, email, etc.)
+  const authUser = data.user
+
+  if (!authUser) {
+    alert('Signup failed: No user returned.')
+    loading.value = false
+    return
+  }
+
+  // Insert user info into 'users' table
   const { error: insertError } = await supabase
     .from('users')
     .insert([
       {
         user: username.value,
         email: email.value,
-        uid: authUser.id,  // Use the UID from the Supabase Auth user
+        uid: authUser.id,
         created: new Date().toISOString(),
       },
     ])
