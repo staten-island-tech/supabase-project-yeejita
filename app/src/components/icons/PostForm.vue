@@ -56,6 +56,9 @@ function submitPost() {
 function deletePost(index) {
   posts.value.splice(index, 1)
 }
+
+/* post id in # order, id of user who made post 
+posts made by specific user put into array that is displayed on profile page */
 </script>
 
 <style scoped>
