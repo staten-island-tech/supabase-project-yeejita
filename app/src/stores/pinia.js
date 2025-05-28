@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const password = ref('')
   const loading = ref(false)
   const error = ref(null)
+  const username = ref('') // <-- add this
 
   const loginUser = async () => {
     loading.value = true
@@ -22,6 +23,21 @@ export const useAuthStore = defineStore('auth', () => {
       if (loginError) throw loginError
 
       user.value = data.user
+
+      // 🎯 Fetch username from your 'users' table
+      const { data: userData, error: fetchError } = await supabase
+        .from('users')
+        .select('user') // Adjust if your column is named 'username'
+        .eq('uid', user.value.id)
+        .single()
+
+      if (fetchError) {
+        console.warn('Could not load username:', fetchError.message)
+        username.value = 'Profile'
+      } else {
+        username.value = userData.user
+      }
+
       clearForm()
       return true
     } catch (err) {
@@ -36,6 +52,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logoutUser = async () => {
     await supabase.auth.signOut()
     user.value = null
+    username.value = '' // Clear it
     clearForm()
   }
 
@@ -50,6 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
     password,
     loading,
     error,
+    username, // Expose this to components
     loginUser,
     logoutUser
   }

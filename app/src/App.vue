@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useAuthStore } from '@/stores/pinia'
+const auth = useAuthStore()
 
 </script>
 
@@ -15,7 +17,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
+        <router-link to="/profile">
+          {{ auth.username || 'Profile' }}
+        </router-link>
         <RouterLink to="/posts">Posts</RouterLink>
         <RouterLink to="/signup">Sign Up</RouterLink>
         <RouterLink to="/login">Log In</RouterLink>
