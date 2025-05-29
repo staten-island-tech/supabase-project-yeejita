@@ -26,8 +26,6 @@
 
 
 
-
-import allposts from './allposts.vue';
 </script>
 
 <style scoped>

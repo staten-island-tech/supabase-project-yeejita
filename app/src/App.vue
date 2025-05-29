@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <body class = "bg-gray-400">
+  <body class = "">
     
   
   <header>

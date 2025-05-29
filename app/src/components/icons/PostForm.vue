@@ -14,7 +14,7 @@
       Submit
     </button>
 
-    <!-- Display All Submitted Posts -->
+    
     <div v-if="posts.length" class="mt-6 space-y-4">
       <div
         v-for="(post, index) in posts"
@@ -27,7 +27,7 @@
       <button class = "bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-lg">👎 </button>
 </div>
         
-        <!-- Delete Button -->
+      
         <button
           @click="deletePost(index)"
           class="absolute top-2 right-2 text-red-500 hover:text-red-700"
