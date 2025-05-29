@@ -28,7 +28,7 @@ import AuthPage from '@/components/icons/AuthPage.vue';
 const registerUser = async () => {
   loading.value = true
 
-  // Check if the email already exists in 'users' table
+  
   const { data: existingUsers, error: checkError } = await supabase
     .from('users')
     .select('uid')
@@ -47,7 +47,7 @@ const registerUser = async () => {
     return
   }
 
-  // Sign up user with Supabase Auth (password is hashed automatically)
+
   const { data, error: signupError } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,

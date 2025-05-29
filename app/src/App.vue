@@ -17,9 +17,7 @@ const auth = useAuthStore()
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <router-link to="/profile">
-          {{ auth.username || 'Profile' }}
-        </router-link>
+        <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/posts">Posts</RouterLink>
         <RouterLink to="/signup">Sign Up</RouterLink>
         <RouterLink to="/login">Log In</RouterLink>

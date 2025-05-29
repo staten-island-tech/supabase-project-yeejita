@@ -23,9 +23,12 @@
 
 
 <script setup>
-//placeholder text
+import { useAuthStore } from '@/stores/pinia';
+
+const usestore = useAuthStore()
+
 const user ={
-    name: "Dustin",
+    name: usestore.username,
     likes: 4,
     posttotal: 3
 }
