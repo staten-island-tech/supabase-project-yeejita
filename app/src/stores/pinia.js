@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const password = ref('')
   const loading = ref(false)
   const error = ref(null)
-  const username = ref('') // <-- add this
+  const username = ref('')
 
   const loginUser = async () => {
     loading.value = true

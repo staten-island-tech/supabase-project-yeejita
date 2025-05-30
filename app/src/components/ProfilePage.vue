@@ -5,10 +5,11 @@
 </h1>
 </div>
 
-<div >
-<h2 class = "text-2xl">👍: {{ user.likes }}</h2>
-<h2 class = "text-2xl">Posts: {{ user.posttotal }}</h2>
-</div>
+<button class="text-2xl" @click="user.likes.value += 1">👍: {{ user.likes }}</button>
+
+<button class = "text-2xl">Posts: {{ user.posttotal }} </button>
+
+
 
 
     <div>
@@ -23,14 +24,15 @@
 
 
 <script setup>
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/pinia';
 
 const usestore = useAuthStore()
 
 const user ={
     name: usestore.username,
-    likes: 4,
-    posttotal: 3
+    likes: ref(0),
+    posttotal: ref(0)
 }
 
 import userpost from './userpost.vue';
