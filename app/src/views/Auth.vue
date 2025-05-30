@@ -24,6 +24,8 @@
 <script setup>
 import AuthPage from '@/components/icons/AuthPage.vue';
 
+const loading = ref(false)
+
 
 const registerUser = async () => {
   loading.value = true
