@@ -1,6 +1,7 @@
 <template>
  <div class="login-page">
-    <h2 class = "text-center text-4xl ">Login</h2>
+    <h1 class = "text-center text-5xl ">Login</h1>
+    <h4 class = "text-center mt-6">Don't have a user? Sign up here.</h4>
 
     <form @submit.prevent="handleLogin">
       <div>
