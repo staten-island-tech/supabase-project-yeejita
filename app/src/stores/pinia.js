@@ -24,10 +24,9 @@ export const useAuthStore = defineStore('auth', () => {
 
       user.value = data.user
 
-      // 🎯 Fetch username from your 'users' table
       const { data: userData, error: fetchError } = await supabase
         .from('users')
-        .select('user') // Adjust if your column is named 'username'
+        .select('username')
         .eq('uid', user.value.id)
         .single()
 
@@ -35,8 +34,9 @@ export const useAuthStore = defineStore('auth', () => {
         console.warn('Could not load username:', fetchError.message)
         username.value = 'Profile'
       } else {
-        username.value = userData.user
+        username.value = userData.username
       }
+
 
       clearForm()
       return true

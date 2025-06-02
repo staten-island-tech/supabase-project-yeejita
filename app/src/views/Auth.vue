@@ -47,9 +47,9 @@
 
 
 <script setup>
-
 import { ref } from 'vue'
 import '@/components/AuthPage.vue'
+import { supabase } from '@/supabaseClient'
 
 // now ref can be used
 const loading = ref(false)
@@ -103,7 +103,7 @@ const registerUser = async () => {
     .from('users')
     .insert([
       {
-        user: username.value,
+        username: username.value,
         email: email.value,
         uid: authUser.id,
         created: new Date().toISOString(),

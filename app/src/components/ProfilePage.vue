@@ -26,13 +26,16 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/pinia';
+import { computed } from 'vue'
 
 const usestore = useAuthStore()
 
-const user ={
-    name: usestore.username,
-    likes: ref(0),
-    posttotal: ref(0)
+
+
+const user = {
+  name: computed(() => usestore.username),
+  likes: ref(0),
+  posttotal: ref(0)
 }
 
 import userpost from './userpost.vue';
