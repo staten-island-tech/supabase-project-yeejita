@@ -107,5 +107,6 @@ async function deletePost(postId) {
   await fetchUserPosts()
 }
 
+</script> 
 <style scoped>
 </style>
