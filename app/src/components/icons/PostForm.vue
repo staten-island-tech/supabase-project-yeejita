@@ -75,27 +75,37 @@ async function fetchUserPosts() {
 }
 
 async function submitPost() {
-  const trimmed = postText.value.trim()
-  if (!trimmed || !authStore.user) return
+  const trimmed = postText.value.trim();
+  if (!trimmed) return;
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error('No authenticated user found:', userError?.message);
+    return;
+  }
+
+  console.log('Posting as user ID:', user.id); 
 
   const { error } = await supabase.from('posts').insert([
     {
       content: trimmed,
-      reluserid: authStore.user.id,
+      reluserid: user.id,
     }
-  ])
+  ]);
 
   if (error) {
-    console.error('Failed to submit post:', error.message)
-    return
+    console.error('Failed to submit post:', error.message);
+    return;
   }
 
-  postText.value = ''
-  await fetchUserPosts()
-
-  const { data: session } = await supabase.auth.getSession()
-  console.log('Session:', session) //remove later
+  postText.value = '';
+  await fetchUserPosts();
 }
+
 
 async function deletePost(postId) {
   const { error } = await supabase.from('posts').delete().eq('id', postId)
