@@ -7,8 +7,8 @@
 </template>
 
 <script setup>
-import ProfilePage from '@/components/icons/ProfilePage.vue';
-
+import ProfilePage from '@/components/ProfilePage.vue';
+ 
 
 </script>
 
