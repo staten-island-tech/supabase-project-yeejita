@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (fetchError) {
         console.warn('Could not load username:', fetchError.message)
-        username.value = 'Profile'
+        username.value = 'NULL'
       } else {
         username.value = userData.username
       }
