@@ -1,19 +1,18 @@
 <template>
     <div>
-<h1 class = "text-5xl text-center ">
+<h1 class = "text-5xl text-center pb-6 ">
     Hello, {{ user.name }}!
 </h1>
 </div>
 
-<button class="text-2xl" @click="user.likes.value += 1">👍: {{ user.likes }}</button>
+<h2 class = "text-center text-3xl pb-8">👍: {{ user.likes }}    Posts: {{ user.posttotal }}</h2>
 
-<button class = "text-2xl">Posts: {{ user.posttotal }} </button>
 
 
 
 
     <div>
-        <h1 class = "text-4xl text-center"> Your Posts </h1>
+        <h1 class = "text-4xl text-center"> Your Posts: </h1>
     </div>
 
     <div>
