@@ -107,6 +107,8 @@ async function submitPost() {
 
 
 async function deletePost(postId) {
+  console.log('deletePost called with:', postId)
+
   const { error } = await supabase.from('posts').delete().eq('id', postId)
 
   if (error) {
