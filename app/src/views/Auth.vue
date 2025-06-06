@@ -41,6 +41,10 @@
           {{ loading ? 'Signing up...' : 'Sign Up' }}
         </button>
       </form>
+      <p class="text-center text-sm text-gray-600 mt-6">
+        Already have an account? Log in
+        <a href="/login" class="text-green-600 hover:underline font-medium"> here.</a>
+      </p>
     </div>
   </div>
 </template>
@@ -51,7 +55,7 @@ import { ref } from 'vue'
 import '@/components/AuthPage.vue'
 import { supabase } from '@/supabaseClient'
 
-// now ref can be used
+
 const loading = ref(false)
 
 
@@ -98,7 +102,7 @@ const registerUser = async () => {
     return
   }
 
-  // Insert user info into 'users' table
+ 
   const { error: insertError } = await supabase
     .from('users')
     .insert([

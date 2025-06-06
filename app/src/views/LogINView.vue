@@ -1,44 +1,49 @@
 <template>
- <div class="login-page">
-    <h1 class = "text-center text-5xl ">Login</h1>
-    <h4 class = "text-center mt-6">Don't have a user? Sign up here.</h4>
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800">Login</h2>
+      <form @submit.prevent="handleLogin" class="space-y-6">
+        <div>
+          <label for="email" class="block text-xl font-semibold text-gray-700 mb-2">Email</label>
+          <input
+            id="email"
+            v-model="auth.email"
+            type="email"
+            required
+            
+            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
 
-    <form @submit.prevent="handleLogin">
-      <div>
-        <label for="email">Email:</label>
-        <input
-          id="email"
-          v-model="auth.email"
-          type="email"
-          placeholder="Enter your email"
-          required
-        />
-      </div>
+        <div class = "mb-4">
+          <label for="password" class="block text-xl font-semibold text-gray-700 mb-2">Password</label>
+          <input
+            id="password"
+            v-model="auth.password"
+            type="password"
+            required
+            
+            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
 
-      <div>
-        <label for="password">Password:</label>
-        <input
-          id="password"
-          v-model="auth.password"
-          type="password"
-          placeholder="Enter your password"
-          required
-        />
-      </div>
+        <div v-if="auth.error || loginFailed" class="text-red-600 text-sm text-center">
+          {{ auth.error }}
+        </div>
 
-      <div v-if="auth.error" class="error">
-        {{ auth.error }}
-      </div>
-
-      <button type="submit" :disabled="auth.loading">
-        <span v-if="auth.loading">Logging in...</span>
-        <span class = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" v-else>Login</span>
-      </button>
-
-      <div v-if="loginFailed" class="error">
-        Login failed: {{ auth.error }}
-      </div>
-    </form>
+        <button
+          type="submit"
+          :disabled="auth.loading"
+          class="w-full text-lg font-bold bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white py-3 rounded-md transition-colors duration-300 mt-6"
+        >
+          {{ auth.loading ? 'Logging in...' : 'Login' }}
+        </button>
+      </form>
+      <p class="text-center text-sm text-gray-600 mt-6">
+        Don't have an account? Create one
+        <a href="/signup" class="text-green-600 hover:underline font-medium"> here.</a>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -53,13 +58,9 @@ const loginFailed = ref(false)
 
 const handleLogin = async () => {
   const success = await auth.loginUser()
-
+  loginFailed.value = !success
   if (success) {
-    loginFailed.value = false
-    router.push('/') 
-  } else {
-    loginFailed.value = true
+    router.push('/')
   }
 }
 </script>
-

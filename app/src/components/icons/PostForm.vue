@@ -1,48 +1,57 @@
 <template>
-  <div class="p-6">
-    <div>
-      <textarea
-        class="pt-2 pb-4 border w-full h-40 resize-none"
-        v-model="postText"
-        placeholder="Write your post here"
-      />
-    </div>
-    <button
-      @click="submitPost"
-      :disabled="!authStore.user"
-      class="mt-4 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
-    >
-      Submit
-    </button>
-
-    <div v-if="posts.length" class="mt-6 space-y-4">
-      <div
-        v-for="(post, index) in posts"
-        :key="post.id"
-        class="p-4 bg-gray-100 rounded shadow relative"
-      >
-        <h2 class="font-bold text-lg mb-2">Post by:</h2>
-        <p class="whitespace-pre-line m-8">{{ post.content }}</p>
-
-        <div class="mt-6">
-          <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-lg">👍</button>
-          <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-lg">👎</button>
-        </div>
-
+  <div class="min-h-screen bg-gray-100 flex justify-center p-6">
+    <div class="w-full max-w-2xl">
+      <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+        
+        <textarea
+          v-model="postText"
+          placeholder="Write your post here"
+          class="w-full h-40 px-4 py-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
         <button
-          @click="deletePost(post.id)"
-          class="absolute top-2 right-2 text-red-500 hover:text-red-700"
+          @click="submitPost"
+          :disabled="!authStore.user"
+          class="w-full text-lg font-bold bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white py-3 rounded-md transition-colors duration-300 mt-6"
         >
-          ✖
+          Submit
         </button>
       </div>
-    </div>
 
-    <div v-else class="mt-4 text-gray-500 text-center">
-      No posts yet.
+      <div v-if="posts.length" class="space-y-6">
+        <div
+          v-for="(post, index) in posts"
+          :key="post.id"
+          class="bg-white p-6 rounded-lg shadow relative"
+        >
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">Post by:</h3>
+          <p class="whitespace-pre-line text-gray-800 mb-6">{{ post.content }}</p>
+
+          <div class="flex items-center gap-4">
+            <button class="flex-1 text-center font-semibold bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-md transition duration-200">
+              👍
+            </button>
+            <button class="flex-1 text-center font-semibold bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-md transition duration-200">
+              👎
+            </button>
+          </div>
+
+          <button
+            @click="deletePost(post.id)"
+            class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl"
+            title="Delete"
+          >
+            ✖
+          </button>
+        </div>
+      </div>
+
+      <div v-else class="text-center text-gray-500 mt-8 text-lg">
+        You must be logged in to submit/view posts.
+      </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
