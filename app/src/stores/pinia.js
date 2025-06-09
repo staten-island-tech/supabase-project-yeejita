@@ -26,14 +26,15 @@ export const useAuthStore = defineStore('auth', () => {
 
       const { data: userData, error: fetchError } = await supabase
         .from('users')
-        .select('username')
+        .select('username', { count: 'exact' })
         .eq('uid', user.value.id)
-        .single()
+
 
       if (fetchError) {
-        console.warn('Could not load username:', fetchError.message)
+        console.log('Could not load username:', fetchError.message)
         username.value = 'NULL'
       } else {
+        console.log("found a username")
         username.value = userData.username
       }
 
