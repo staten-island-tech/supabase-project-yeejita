@@ -4,101 +4,76 @@ import { useAuthStore } from '@/stores/pinia'
 
 const auth = useAuthStore()
 const route = useRoute()
+
+import { useDarkMode } from '@/composables/useDarkMode'
+
+const { isDark, toggleDark } = useDarkMode()
+
 </script>
 
 <template>
-  <body class = "">
-    
-  
-  <header>
-    
+  <body class="">
+    <header class="bg-white-800 text-black shadow-md">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+       
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+        
+        <nav class="flex items-center gap-6">
+          <RouterLink
+            to="/"
+            class="inline-flex hover:text-green-500 transition-colors"
+          >
+            Home
+          </RouterLink>
+          <RouterLink
+            to="/profile"
+            class="inline-flex hover:text-green-500 transition-colors"
+          >
+            {{ auth.username || 'Profile' }}
+          </RouterLink>
+          <RouterLink
+            to="/posts"
+            class="inline-flex hover:text-green-500 transition-colors"
+          >
+            Posts
+          </RouterLink>
+          <RouterLink
+            v-if="!auth.username"
+            to="/signup"
+            class="inline-flex hover:text-green-500 transition-colors"
+          >
+            Sign Up
+          </RouterLink>
+          <RouterLink
+            v-if="!auth.username"
+            to="/login"
+            class="inline-flex hover:text-green-500 transition-colors"
+          >
+            Log In
+          </RouterLink>
+          <button
+            v-if="auth.username"
+            @click="auth.logout()"
+            class="hover:text-red-500 px-3 py-1 rounded transition"
+          >
+            Log Out
+          </button>
+          <button
+            @click="toggleDark"
+              class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white transition"
+            >
+            {{ isDark ? '☀️ Light' : '🌙 Dark' }}
+          </button>
+        </nav>
+      </div>
+    </header>
 
-      <nav>
-  <RouterLink to="/">Home</RouterLink>
-  <RouterLink to="/profile">
-    {{ auth.username || 'Profile' }}
-  </RouterLink>
-  <RouterLink to="/posts">Posts</RouterLink>
-
-  <!-- Show Sign Up only if NOT logged in -->
-  <RouterLink v-if="!auth.username" to="/signup">Sign Up</RouterLink>
-
-  <!-- Show Log In only if NOT logged in -->
-  <RouterLink v-if="!auth.username" to="/login">Log In</RouterLink>
-
-  <!-- Optionally, show a Log Out button if logged in -->
-  <button v-if="auth.username" @click="auth.logout()">Log Out</button>
-</nav>
-    </div>            
-  </header>
-
-  <RouterView />
-</body>
+    <RouterView />
+  </body>
 </template>
 
+
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex justify-center p-6">
     <div class="w-full max-w-2xl">
-      <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+      <div class="bg-white p-8 rounded-lg shadow-md mb-8 ">
         
         <textarea
           v-model="postText"
@@ -46,7 +46,7 @@
       </div>
 
       <div v-else class="text-center text-gray-500 mt-8 text-lg">
-        You must be logged in to submit/view posts.
+        No posts yet.
       </div>
     </div>
   </div>

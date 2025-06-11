@@ -1,6 +1,7 @@
 <template>
+  <div class = "">
     <div>
-      <h1 class="text-5xl text-center pb-6">
+      <h1 class="text-5xl text-center pb-6 mt-6">
         Hello, {{ username }}!
       </h1>
     </div>
@@ -13,6 +14,7 @@
   
     <div>
       <userpost />
+    </div>
     </div>
   </template>
   
