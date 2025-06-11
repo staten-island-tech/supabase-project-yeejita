@@ -1,33 +1,32 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800">Login</h2>
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6 transition-colors duration-300">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800 dark:text-white">Login</h2>
+      
       <form @submit.prevent="handleLogin" class="space-y-6">
         <div>
-          <label for="email" class="block text-xl font-semibold text-gray-700 mb-2">Email</label>
+          <label for="email" class="block text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Email</label>
           <input
             id="email"
             v-model="auth.email"
             type="email"
             required
-            
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
-        <div class = "mb-4">
-          <label for="password" class="block text-xl font-semibold text-gray-700 mb-2">Password</label>
+        <div class="mb-4">
+          <label for="password" class="block text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Password</label>
           <input
             id="password"
             v-model="auth.password"
             type="password"
             required
-            
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
-        <div v-if="auth.error || loginFailed" class="text-red-600 text-sm text-center">
+        <div v-if="auth.error || loginFailed" class="text-red-600 text-sm text-center dark:text-red-400">
           {{ auth.error }}
         </div>
 
@@ -39,7 +38,8 @@
           {{ auth.loading ? 'Logging in...' : 'Login' }}
         </button>
       </form>
-      <p class="text-center text-sm text-gray-600 mt-6">
+
+      <p class="text-center text-sm text-gray-600 dark:text-gray-300 mt-6">
         Don't have an account? Create one
         <a href="/signup" class="text-green-600 hover:underline font-medium"> here.</a>
       </p>

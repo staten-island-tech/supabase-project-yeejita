@@ -6,11 +6,6 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,js,ts}'],
-  theme: {
-    extend: {},
-  },
   plugins: [
     vue(),
     vueDevTools(),
