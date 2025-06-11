@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/supabaseClient'
+import router from '@/router/index'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
@@ -24,18 +25,22 @@ export const useAuthStore = defineStore('auth', () => {
 
       user.value = data.user
 
+      console.log('UID to search:', user.value.id);
+
       const { data: userData, error: fetchError } = await supabase
         .from('users')
-        .select('username', { count: 'exact' })
-        .eq('uid', user.value.id)
-
+        .select('username')
+        .eq('uid', user.value.id);
 
       if (fetchError) {
-        console.log('Could not load username:', fetchError.message)
-        username.value = 'NULL'
+        console.log('Could not load username:', fetchError.message);
+        username.value = 'NULL';
+      } else if (!userData || userData.length === 0) {
+        console.log('No user found with that UID:', user.value.id);
+        username.value = 'NULL';
       } else {
-        console.log("found a username")
-        username.value = userData.username
+        console.log('Found username:', userData[0].username);
+        username.value = userData[0].username;
       }
 
 
@@ -50,17 +55,40 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const logoutUser = async () => {
-    await supabase.auth.signOut()
-    user.value = null
-    username.value = '' // Clear it
-    clearForm()
+  const logout = async () => {
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.error('Error signing out:', error.message)
+    return
   }
+  user.value = null
+  username.value = ''
+  clearForm()
+  router.push('/login')  // or '/'
+}
 
   const clearForm = () => {
     email.value = ''
     password.value = ''
   }
+
+  const getUserFromSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session && session.user) {
+      user.value = session.user
+
+      const { data: userData, error } = await supabase
+        .from('users')
+        .select('username')
+        .eq('uid', user.value.id)
+
+      if (!error && userData && userData.length > 0) {
+        username.value = userData[0].username
+      }
+    }
+  }
+
+  getUserFromSession()
 
   return {
     user,
@@ -70,6 +98,6 @@ export const useAuthStore = defineStore('auth', () => {
     error,
     username, // Expose this to components
     loginUser,
-    logoutUser
+    logout
   }
 })

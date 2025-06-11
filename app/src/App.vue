@@ -1,8 +1,9 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/pinia'
-const auth = useAuthStore()
 
+const auth = useAuthStore()
+const route = useRoute()
 </script>
 
 <template>
@@ -16,12 +17,21 @@ const auth = useAuthStore()
       <HelloWorld msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
-        <RouterLink to="/posts">Posts</RouterLink>
-        <RouterLink to="/signup">Sign Up</RouterLink>
-        <RouterLink to="/login">Log In</RouterLink>
-      </nav>
+  <RouterLink to="/">Home</RouterLink>
+  <RouterLink to="/profile">
+    {{ auth.username || 'Profile' }}
+  </RouterLink>
+  <RouterLink to="/posts">Posts</RouterLink>
+
+  <!-- Show Sign Up only if NOT logged in -->
+  <RouterLink v-if="!auth.username" to="/signup">Sign Up</RouterLink>
+
+  <!-- Show Log In only if NOT logged in -->
+  <RouterLink v-if="!auth.username" to="/login">Log In</RouterLink>
+
+  <!-- Optionally, show a Log Out button if logged in -->
+  <button v-if="auth.username" @click="auth.logout()">Log Out</button>
+</nav>
     </div>            
   </header>
 
