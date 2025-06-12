@@ -36,6 +36,7 @@
           </div>
 
           <button
+            v-if="post.reluserid === authStore.user.id"
             @click="deletePost(post.id)"
             class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl"
             title="Delete"
@@ -58,21 +59,21 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/supabaseClient'
 import { useAuthStore } from '@/stores/pinia'
 
+
 const postText = ref('')
 const posts = ref([])
 const authStore = useAuthStore()
 
 onMounted(() => {
   if (authStore.user) {
-    fetchUserPosts()
+    fetchAllPosts()
   }
 })
 
-async function fetchUserPosts() {
+async function fetchAllPosts() {
   const { data, error } = await supabase
     .from('posts')
     .select('id, content, created_at, reluserid')
-    .eq('reluserid', authStore.user.id)
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -80,6 +81,8 @@ async function fetchUserPosts() {
   } else {
     posts.value = data
   }
+
+  
 }
 
 async function submitPost() {
@@ -111,7 +114,7 @@ async function submitPost() {
   }
 
   postText.value = '';
-  await fetchUserPosts();
+  await fetchAllPosts();
 }
 
 
@@ -125,7 +128,7 @@ async function deletePost(postId) {
     return
   }
 
-  await fetchUserPosts()
+  await fetchAllPosts()
 }
 
 </script> 
