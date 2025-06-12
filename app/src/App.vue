@@ -9,7 +9,7 @@
           <RouterLink to="/posts" class="inline-flex hover:text-green-500">Posts</RouterLink>
           <RouterLink v-if="!auth.username" to="/signup" class="inline-flex hover:text-green-500">Sign Up</RouterLink>
           <RouterLink v-if="!auth.username" to="/login" class="inline-flex hover:text-green-500">Log In</RouterLink>
-          <button v-if="auth.username" @click="auth.logout()" class="hover:text-red-500 px-3 py-1 rounded transition">Log Out</button>
+          <button v-if="auth.username" @click="auth.logout()" class="hover: bg-red text-red-500 px-3 py-1 rounded transition">Log Out</button>
 
          
           <button @click="toggleDark" class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white transition">
