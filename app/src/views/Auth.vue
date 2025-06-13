@@ -55,6 +55,10 @@ import { ref } from 'vue'
 import '@/components/AuthPage.vue'
 import { supabase } from '@/supabaseClient'
 
+const username = ref('')
+const email = ref('')
+const password = ref('')
+
 
 const loading = ref(false)
 

@@ -17,6 +17,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/ProfileView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/posts',
@@ -50,7 +51,7 @@ router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    next({path: '/'})
+    next({path: '/login'})
   } else {
     next()
   }
