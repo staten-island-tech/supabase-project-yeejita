@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { supabase } from '@/supabaseClient'
 import router from '@/router/index'
 
@@ -10,6 +10,8 @@ export const useAuthStore = defineStore('auth', () => {
   const loading = ref(false)
   const error = ref(null)
   const username = ref('')
+
+  const isAuthenticated = computed(() => !!user.value)
 
   const loginUser = async () => {
     loading.value = true
@@ -98,6 +100,7 @@ export const useAuthStore = defineStore('auth', () => {
     error,
     username, // Expose this to components
     loginUser,
-    logout
+    logout,
+    isAuthenticated
   }
 })

@@ -23,7 +23,7 @@
           :key="post.id"
           class="bg-white p-6 rounded-lg shadow relative"
         >
-          <h3 class="text-lg font-semibold text-gray-700 mb-2">Post by:</h3>
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">Post by: {{ post.users?.username || 'Unknown User' }}</h3>
           <p class="whitespace-pre-line text-gray-800 mb-6">{{ post.content }}</p>
 
           <div class="flex items-center gap-4">
@@ -36,7 +36,7 @@
           </div>
 
           <button
-            v-if="post.reluserid === authStore.user.id"
+            v-if="authStore.user && post.reluserid === authStore.user.id"
             @click="deletePost(post.id)"
             class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl"
             title="Delete"
@@ -73,7 +73,15 @@ onMounted(() => {
 async function fetchAllPosts() {
   const { data, error } = await supabase
     .from('posts')
-    .select('id, content, created_at, reluserid')
+    .select(`
+    id,
+    content,
+    created_at,
+    reluserid,
+    users (
+      username
+    )
+  `)
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -130,6 +138,7 @@ async function deletePost(postId) {
 
   await fetchAllPosts()
 }
+
 
 </script> 
 <style scoped>

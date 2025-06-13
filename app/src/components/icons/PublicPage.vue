@@ -14,11 +14,7 @@
 
   
 
-  <div>
-    
-  <allposts />    
-   
-  </div>
+  
 
 </template>
 
