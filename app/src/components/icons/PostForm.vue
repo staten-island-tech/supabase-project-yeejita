@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex justify-center p-6">
-    <div class="w-full max-w-2xl">
-      <div class="bg-white p-8 rounded-lg shadow-md mb-8 ">
-        
+    <div class="w-full max-w-6xl">
+      
+      <div class="bg-white p-8 rounded-lg shadow-md mb-12 flex flex-col gap-4 shadow-lg">
         <textarea
           v-model="postText"
           placeholder="Write your post here"
@@ -17,23 +17,16 @@
         </button>
       </div>
 
-      <div v-if="posts.length" class="space-y-6">
+      <div v-if="posts.length" class="flex flex-col gap-4">
         <div
           v-for="(post, index) in posts"
           :key="post.id"
-          class="bg-white p-6 rounded-lg shadow relative"
+          class="bg-white p-7 rounded-lg shadow relative"
         >
-          <h3 class="text-lg font-semibold text-gray-700 mb-2">Post by:</h3>
-          <p class="whitespace-pre-line text-gray-800 mb-6">{{ post.content }}</p>
+          <h3 class="text-lg font-semibold text-gray-700 mb-2 pb-2">Post by:</h3>
+          <p class="whitespace-pre-line text-gray-800 mb-6 pb-3">{{ post.content }}</p>
 
-          <div class="flex items-center gap-4">
-            <button class="flex-1 text-center font-semibold bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-md transition duration-200">
-              👍
-            </button>
-            <button class="flex-1 text-center font-semibold bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-md transition duration-200">
-              👎
-            </button>
-          </div>
+          
 
           <button
             v-if="post.reluserid === authStore.user.id"
@@ -52,6 +45,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script setup>
