@@ -1,7 +1,14 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+  <div
+    ref="containerRef"
+    class="min-h-screen flex items-center justify-center bg-gray-100 p-6"
+  >
+    <div
+      ref="formRef"
+      class="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+    >
       <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800">Sign Up</h2>
+      
       <form @submit.prevent="registerUser" class="space-y-6">
         <div>
           <label class="block text-xl font-semibold text-gray-700 mb-2" for="username">Username</label>
@@ -37,10 +44,11 @@
           type="submit"
           :disabled="loading"
           class="w-full text-lg font-bold bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white py-3 rounded-md transition-colors duration-300 mt-6"
-            >
+        >
           {{ loading ? 'Signing up...' : 'Sign Up' }}
         </button>
       </form>
+
       <p class="text-center text-sm text-gray-600 mt-6">
         Already have an account? Log in
         <a href="/login" class="text-green-600 hover:underline font-medium"> here.</a>
@@ -49,25 +57,38 @@
   </div>
 </template>
 
-
 <script setup>
-import { ref } from 'vue'
-import '@/components/AuthPage.vue'
+import { ref, onMounted } from 'vue'
+import { gsap } from 'gsap'
 import { supabase } from '@/supabaseClient'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
-
-
 const loading = ref(false)
 
+const containerRef = ref(null)
+const formRef = ref(null)
 
+onMounted(() => {
+  gsap.from(containerRef.value, {
+    opacity: 0,
+    y: 40,
+    duration: 0.5,
+    ease: 'power2.out'
+  })
+  gsap.from(formRef.value, {
+    opacity: 0,
+    y: 20,
+    duration: 0.8,
+    delay: 0.2,
+    ease: 'power2.out'
+  })
+})
 
 const registerUser = async () => {
   loading.value = true
 
-  
   const { data: existingUsers, error: checkError } = await supabase
     .from('users')
     .select('uid')
@@ -85,7 +106,6 @@ const registerUser = async () => {
     loading.value = false
     return
   }
-
 
   const { data, error: signupError } = await supabase.auth.signUp({
     email: email.value,
@@ -106,7 +126,6 @@ const registerUser = async () => {
     return
   }
 
- 
   const { error: insertError } = await supabase
     .from('users')
     .insert([
@@ -130,9 +149,7 @@ const registerUser = async () => {
   password.value = ''
   loading.value = false
 }
-
 </script>
 
 <style scoped>
-
 </style>

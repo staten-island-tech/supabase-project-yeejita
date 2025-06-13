@@ -1,5 +1,5 @@
 <template>
-  <div class ="bg-gray-100 min-h-screen py-8">
+  <div ref="pageRef" class="bg-gray-100 min-h-screen py-8">
     <div>
       <h1 class="text-5xl text-center pb-6 mt-6">
         Hello, {{ username }}!
@@ -17,40 +17,48 @@
         v-for="post in userPosts"
         :key="post.id"
         class="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full"
-          >
-      <p class="text-gray-800 whitespace-pre-line">{{ post.content }}</p>
+      >
+        <p class="text-gray-800 whitespace-pre-line">{{ post.content }}</p>
       </div>
     </div>
-
 
     <div v-else class="text-center text-gray-500 mt-6 text-lg">
       You haven’t made any posts yet.
     </div>
   </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted, computed } from 'vue'
-  import { supabase } from '@/supabaseClient'
-  import { useAuthStore } from '@/stores/pinia'
+</template>
 
-  const userPosts = ref([])
-  const usestore = useAuthStore()
-  const username = computed(() => usestore.username)
-  
-  onMounted(() => {
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+import { supabase } from '@/supabaseClient'
+import { useAuthStore } from '@/stores/pinia'
+import { gsap } from 'gsap'
+
+const pageRef = ref(null)
+
+const userPosts = ref([])
+const usestore = useAuthStore()
+const username = computed(() => usestore.username)
+
+onMounted(() => {
   fetchUserPosts()
+  gsap.from(pageRef.value, {
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    ease: 'power2.out',
   })
+})
 
-  const user = {
-    likes: ref(0),
-    posttotal: ref(0)
-  }
+const user = {
+  likes: ref(0),
+  posttotal: ref(0),
+}
 
-  async function fetchUserPosts() {
+async function fetchUserPosts() {
   const {
     data: { user: currentUser },
-    error
+    error,
   } = await supabase.auth.getUser()
 
   if (error || !currentUser) {
@@ -71,11 +79,8 @@
 
   userPosts.value = data
   user.posttotal.value = data.length
-  }
+}
+</script>
 
-
-  </script>
-  
-  <style scoped>
-  </style>
-  
+<style scoped>
+</style>

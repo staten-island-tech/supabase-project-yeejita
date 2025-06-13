@@ -1,7 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-100 flex justify-center p-6">
+  <div ref="pageRef" class="min-h-screen bg-gray-100 flex justify-center p-6">
     <div class="w-full max-w-6xl">
-      
       <div class="bg-white p-8 rounded-lg shadow-md mb-12 flex flex-col gap-4 shadow-lg">
         <textarea
           v-model="postText"
@@ -21,13 +20,13 @@
         <div
           v-for="(post, index) in posts"
           :key="post.id"
+          ref="postRefs"
           class="bg-white p-7 rounded-lg shadow relative"
         >
-          <h3 class="text-lg font-semibold text-gray-700 mb-2">Post by: {{ post.users?.username || 'Unknown User' }}</h3>
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">
+            Post by: {{ post.users?.username || 'Unknown User' }}
+          </h3>
           <p class="whitespace-pre-line text-gray-800 mb-6">{{ post.content }}</p>
-
-          
-
           <button
             v-if="authStore.user && post.reluserid === authStore.user.id"
             @click="deletePost(post.id)"
@@ -40,89 +39,103 @@
       </div>
 
       <div v-else class="text-center text-gray-500 mt-8 text-lg">
-        No posts yet.
+        You must be signed in to submit/view posts.
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { supabase } from '@/supabaseClient'
 import { useAuthStore } from '@/stores/pinia'
-
+import { gsap } from 'gsap'
 
 const postText = ref('')
 const posts = ref([])
 const authStore = useAuthStore()
 
+const pageRef = ref(null)
+const postRefs = ref([])
+
 onMounted(() => {
+  animatePageIn()
   if (authStore.user) {
     fetchAllPosts()
   }
 })
 
+function animatePageIn() {
+  gsap.from(pageRef.value, {
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    ease: 'power2.out',
+  })
+}
+
 async function fetchAllPosts() {
   const { data, error } = await supabase
     .from('posts')
     .select(`
-    id,
-    content,
-    created_at,
-    reluserid,
-    users (
-      username
-    )
-  `)
+      id,
+      content,
+      created_at,
+      reluserid,
+      users (
+        username
+      )
+    `)
     .order('created_at', { ascending: false })
 
   if (error) {
     console.error('Failed to fetch posts:', error.message)
-  } else {
-    posts.value = data
+    return
   }
 
-  
+  posts.value = data
+
+  await nextTick()
+  gsap.from(postRefs.value, {
+    opacity: 0,
+    y: 30,
+    duration: 0.15,
+    stagger: 0.1,
+    ease: 'power2.out',
+  })
 }
 
 async function submitPost() {
-  const trimmed = postText.value.trim();
-  if (!trimmed) return;
+  const trimmed = postText.value.trim()
+  if (!trimmed) return
 
   const {
     data: { user },
-    error: userError
-  } = await supabase.auth.getUser();
+    error: userError,
+  } = await supabase.auth.getUser()
 
   if (userError || !user) {
-    console.error('No authenticated user found:', userError?.message);
-    return;
+    console.error('No authenticated user found:', userError?.message)
+    return
   }
-
-  console.log('Posting as user ID:', user.id); 
 
   const { error } = await supabase.from('posts').insert([
     {
       content: trimmed,
       reluserid: user.id,
-    }
-  ]);
+    },
+  ])
 
   if (error) {
-    console.error('Failed to submit post:', error.message);
-    return;
+    console.error('Failed to submit post:', error.message)
+    return
   }
 
-  postText.value = '';
-  await fetchAllPosts();
+  postText.value = ''
+  await fetchAllPosts()
 }
 
-
 async function deletePost(postId) {
-  console.log('deletePost called with:', postId)
-
   const { error } = await supabase.from('posts').delete().eq('id', postId)
 
   if (error) {
@@ -132,8 +145,7 @@ async function deletePost(postId) {
 
   await fetchAllPosts()
 }
+</script>
 
-
-</script> 
 <style scoped>
 </style>
